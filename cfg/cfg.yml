@@ -1,0 +1,99 @@
+A_CFG_INFO:
+  name: cfg.yml
+  training_file: train.py
+
+INPUT_CONFIG:
+  x_min: 0
+  x_max: 70
+  x_grid_size: 0.2
+  y_min: -40
+  y_max: 40
+  y_grid_size: 0.2
+  z_min: -2.2
+  z_max: 1
+  z_grid_size: 0.2
+  z_pillar_size: 4
+  num_point_features: 3
+  num_conseq_frames: 5
+  num_reg_targets: 6
+  num_classes: 1
+  dim_gt_targets: 6
+  max_targets_forever: 50
+  anchors: [[3.4, 1.5], [3.9, 1.6], [4.4, 1.8]]
+  get_labels: 'car'
+  z_center: -1
+  z_height: 1.5
+  dt: 0.1
+  pp_max_points: 35
+  pp_max_voxels: 20000
+  pp_reverse_index: False
+  pp_num_filters: [64]
+  use_pp: False
+  pp_use_norm: True
+  pp_with_distance: False
+  pp_verbose: False
+
+MODEL_CONFIG:
+  model: 'fafe'  # little_fafe or fafe
+
+LOSS_CONFIG:
+  confidence_threshold: 0.75
+  lower_match_threshold: 0.4
+  higher_match_threshold: 0.5
+  lambda_time_decay: 0.97
+  alpha_factor: 0.95
+  gamma: 2
+  regression_beta: 1
+  regression_loss: 'SmoothL1'  # 'SmoothL1' or 'MSE'
+  euler_beta: 1
+  euler_loss: 'SmoothL1' # 'SmoothL1' or 'MSE'
+  class_beta: 10
+
+TRAIN_CONFIG:
+  max_epochs: 300
+  batch_size: 12
+  num_workers: 4
+  shuffle: True
+  use_cuda: True
+  multi_gpu: False
+  cuda_device: 1
+  verbose: False
+  use_visdom: True
+  visdom_port: 8098
+  visdom_server: 'localhost'
+  training_seqs: [1, 4, 7, 5, 6, 9, 10, 11, 12, 18, 19, 20, 3, 8, 13, 14]
+  validation_seqs: [15, 16, 17, 0, 2]
+  learning_rate: 1e-4
+  weight_decay: 1e-4
+  save_weights_modulus: 5
+  plot_grad_flow: False
+
+EVAL_CONFIG:
+  batch_size: 1
+  num_workers: 1
+  use_cuda: True
+  cuda_device: 0
+  verbose: False
+  use_visdom: False
+  confidence_threshold: 0.5001
+  save_figs: True
+  infer_color: [1, 1, 1]
+  gt_color: [0.8, 0.4, 0.9]
+  validation_seqs: [1, 4, 7, 15, 16, 17]
+  anchors: [[3.4, 1.5], [3.9, 1.6], [4.4, 1.8]]
+  off_screen_rendering: True
+  use_gospa: True
+  show_confidence: True
+  draw_gospa : True
+  save_detections_as_measurements: True
+  save_raw: False
+  distance_threshold: 1
+
+POST_CONFIG:
+  iou_threshold: 0.5
+  reason_distance_threshold: 0.5
+  det2pred_distance_threshold: 1.2
+  over_time_distance_threshold: 0.8
+  confidence_threshold: 0.7
+  verbose: False
+  coordinate_transform: True
